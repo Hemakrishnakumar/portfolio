@@ -35,9 +35,9 @@ const Navigation = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-black/90 backdrop-blur-md border-b border-gray-800' : 'bg-transparent'
-      }`}
+      style={{ willChange: 'transform, backdrop-filter' }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 
+        bg-black ${isScrolled ? 'bg-opacity-90 backdrop-blur-md shadow-md' : 'bg-opacity-0'}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative flex items-center h-16 px-4">
@@ -46,12 +46,16 @@ const Navigation = () => {
             className="text-4xl font-bold text-white cursor-pointer"
             onClick={() => scrollToSection('#home')}
           >
-            <span className="text-emerald-400">&lt;</span>H<span className="-ml-2">K</span><span className="text-emerald-400">/&gt;</span>
+            <span className="text-emerald-400">&lt;</span>
+            H<span className="-ml-2">K</span>
+            <span className="text-emerald-400">/&gt;</span>
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden absolute left-1/2 transform -translate-x-1/2 md:flex space-x-8 px-6 py-3 rounded-2xl 
-                bg-white/20 backdrop-blur-md border border-white/10 shadow-lg">
+          <div
+            className="hidden absolute left-1/2 transform -translate-x-1/2 md:flex space-x-8 px-6 py-3 rounded-2xl 
+                bg-white/20 backdrop-blur-md border border-white/10 shadow-lg"
+          >
             {navItems.map((item) => (
               <motion.button
                 key={item.href}

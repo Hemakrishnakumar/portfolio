@@ -37,13 +37,13 @@ const About = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-white">
+          <h2 className="text-5xl sm:text-6xl font-extrabold mb-6 text-white">
             About <span className="text-emerald-400">Me</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Passionate Full Stack Developer with 5+ years of experience creating 
-            innovative web applications. I specialize in building scalable, user-friendly 
-            solutions that drive business growth and enhance user experiences.
+          <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            I’m a passionate Full Stack Developer with <span className="text-emerald-400 font-semibold">5+ years of experience</span> crafting 
+            modern, scalable applications. My focus is on clean architecture, smooth user experiences, and solving problems 
+            that truly make an impact.
           </p>
         </motion.div>
 
@@ -57,14 +57,13 @@ const About = () => {
           >
             <h3 className="text-2xl font-semibold text-white mb-4">My Journey</h3>
             <p className="text-gray-300 leading-relaxed">
-              Started my development journey with a passion for creating digital solutions 
-              that matter. I have worked with startups and established companies, helping 
-              them build robust applications that scale and perform under pressure.
+              I started my journey driven by curiosity to understand how technology can shape ideas into real-world solutions. 
+              Over the years, I’ve collaborated with <span className="text-emerald-400">startups and enterprises</span>, delivering 
+              high-performing apps under tight deadlines.
             </p>
             <p className="text-gray-300 leading-relaxed">
-              I believe in writing clean, maintainable code and staying current with 
-              the latest technologies and best practices in the rapidly evolving 
-              world of web development.
+              I believe in writing <span className="text-emerald-400">clean, maintainable code</span> and constantly exploring new tools, 
+              frameworks, and practices that help me grow as a developer and team player.
             </p>
           </motion.div>
 

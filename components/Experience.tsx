@@ -6,10 +6,10 @@ import { Calendar, MapPin } from 'lucide-react';
 const Experience = () => {
   const experiences = [
     {
-      company: 'TechCorp Solutions',
-      position: 'Senior Full Stack Developer',
-      period: '2022 - Present',
-      location: 'San Francisco, CA',
+      company: 'Ahex Technlogies',
+      position: 'Full Stack Developer',
+      period: 'Jan 2025- Present',
+      location: 'Hyderabad, Telangana',
       description: 'Led development of microservices architecture serving 100k+ users. Implemented CI/CD pipelines reducing deployment time by 60%.',
       achievements: [
         'Architected scalable React applications with Next.js',
@@ -18,27 +18,15 @@ const Experience = () => {
       ]
     },
     {
-      company: 'InnovateLabs',
-      position: 'Full Stack Developer',
-      period: '2020 - 2022',
-      location: 'New York, NY',
+      company: 'Accenture',
+      position: 'Software Engineer',
+      period: 'Sep 2021 - Jan 2025',
+      location: 'Hyderabad, Telangana',
       description: 'Developed and maintained multiple client projects using React, Node.js, and cloud technologies.',
       achievements: [
         'Built responsive web applications with React and TypeScript',
         'Integrated third-party APIs and payment systems',
         'Collaborated with design teams to implement pixel-perfect UIs'
-      ]
-    },
-    {
-      company: 'StartupXYZ',
-      position: 'Frontend Developer',
-      period: '2019 - 2020',
-      location: 'Austin, TX',
-      description: 'Joined early-stage startup to build their core product from the ground up.',
-      achievements: [
-        'Created the initial frontend architecture',
-        'Implemented responsive design for mobile-first approach',
-        'Participated in product planning and user experience decisions'
       ]
     }
   ];

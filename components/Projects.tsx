@@ -2,26 +2,21 @@
 
 import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
+import Image from 'next/image';
 
 const Projects = () => {
-  const projects = [
-    {
-      title: 'E-Commerce Platform',
-      description: 'Modern e-commerce solution with real-time inventory management and secure payment processing.',
-      techStack: ['Next.js', 'TypeScript', 'Stripe', 'PostgreSQL'],
-      githubUrl: 'https://github.com/johndoe/ecommerce',
-      liveUrl: 'https://ecommerce-demo.vercel.app',
-      image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800'
-    },
+  const projects = [    
     {
       title: 'Talentprise',
       description: 'Talentprise is an AI-driven talent intelligence and recruitment platform that connects organizations with the right candidates. It streamlines the hiring process through smart job matching, personalized onboarding, and real-time insights.',
       techStack: ['React', 'Node.js', 'Express', 'Microservices', 'Postgres', 'Redis', 'Stripe'],      
       liveUrl: 'https://www.talentprise.com/',
-      image: '/assets/talentprise_hero.svg'
+      image: '/assets/talentprise_hero.svg',
+      type: 'Client'
     },
     {
       title: 'Weather Analytics Dashboard',
+      type: 'Personal',
       description: 'Data visualization dashboard for weather patterns with interactive charts and forecasting.',
       techStack: ['React', 'D3.js', 'Express.js', 'AWS'],
       githubUrl: 'https://github.com/johndoe/weather-dashboard',
@@ -57,15 +52,28 @@ const Projects = () => {
               transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
               whileHover={{ y: -10 }}
-              className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden hover:border-emerald-500 transition-all duration-300 group"
+              className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden hover:border-emerald-500 transition-all duration-300 group"
             >
-              <div className="relative overflow-hidden">
-                <img 
-                  src={project.image} 
-                  alt={project.title}
-                  className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative overflow-hidden">              
+                <div className="w-full h-48 relative">
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105 rounded-md"
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    {/* ✅ Badge */}
+                    <span
+                      className={`absolute top-3 left-3 px-3 py-1 text-xs font-semibold rounded-full backdrop-blur-md ${
+                        project.type === 'Client'
+                          ? 'bg-emerald-500/90 text-black'
+                          : 'bg-white/90 text-gray-900'
+                      }`}
+                    >
+                      {project.type === 'Client' ? 'Professional' : 'Personal'}
+                    </span>
               </div>
               
               <div className="p-6">
