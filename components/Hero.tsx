@@ -85,7 +85,7 @@ const Hero = () => {
               }
               className="px-8 py-3 border border-emerald-400 text-emerald-400 hover:bg-emerald-400 hover:text-black font-medium rounded-lg transition-all duration-300 transform hover:scale-105"
             >
-              Hire Me
+              Work together
             </button>
           </motion.div>
         </motion.div>
