@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Twitter, Mail, MapPin, Send } from 'lucide-react';
+import { Toast } from 'primereact/toast';        
 import { MY_URLS, PERSONAL_INFO } from '@/lib/constants';
 
 const Contact = () => {
@@ -12,18 +13,33 @@ const Contact = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const toast = useRef<Toast>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault();    
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Reset form
-    setFormData({ name: '', email: '', message: '' });
+    try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      toast.current?.show({severity:'success', summary: 'Success', detail:'Message has been sent', life: 3000});
+      setFormData({ name: '', email: '', message: '' });
+    } else {
+      toast.current?.show({severity:'error', summary: 'Error', detail:'Failed to send message. Please try again later.', life: 3000});
+    }
+  } catch (error) {
+    console.log(error);
+    toast.current?.show({severity:'error', summary: 'Error', detail:'Something went wrong. Please try again.', life: 3000});
+
+  } finally {
     setIsSubmitting(false);
-    alert('Message sent successfully!');
+  }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -43,16 +59,12 @@ const Contact = () => {
       name: 'LinkedIn',
       icon: <Linkedin className="w-6 h-6" />,
       url: MY_URLS.linked_in
-    },
-    // {
-    //   name: 'Twitter',
-    //   icon: <Twitter className="w-6 h-6" />,
-    //   url: 'https://twitter.com/johndoe'
-    // }
+    }
   ];
 
   return (
     <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8">
+      <Toast position="bottom-right" ref={toast} className='z-50' />
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

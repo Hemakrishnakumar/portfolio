@@ -1,6 +1,9 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
+import 'primereact/resources/themes/saga-green/theme.css'; // choose any theme
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 const roboto = Roboto({ 
   subsets: ['latin'],
