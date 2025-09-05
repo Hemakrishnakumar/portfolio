@@ -1,7 +1,7 @@
 export const WELCOME_GREET = "Hi, I'm";
 
 export const PERSONAL_INFO = {
-    first_name : 'Hemakrishna Kumar',
+    first_name : 'Hemakrishna',
     last_name : 'Jayavarapu',
     email: 'krish.jayavarapu@gmail.com',
     address: 'Hyderabad, Telangana' 

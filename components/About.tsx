@@ -13,12 +13,12 @@ const About = () => {
     {
       category: 'Backend',
       icon: <Server className="w-6 h-6" />,
-      technologies: ['Node.js', 'Express.js', 'Python', 'Docker']
+      technologies: ['Node.js', 'Express.js', 'NestJs', 'Docker']
     },
     {
       category: 'Database',
       icon: <Database className="w-6 h-6" />,
-      technologies: ['PostgreSQL', 'MongoDB', 'Redis', 'Supabase']
+      technologies: ['PostgreSQL', 'MongoDB', 'MySQL', 'Redis', 'Supabase']
     },
     {
       category: 'DevOps',

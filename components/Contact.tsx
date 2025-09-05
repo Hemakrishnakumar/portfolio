@@ -3,49 +3,65 @@
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Twitter, Mail, MapPin, Send } from 'lucide-react';
-import { Toast } from 'primereact/toast';        
+import { Toast } from 'primereact/toast';
 import { MY_URLS, PERSONAL_INFO } from '@/lib/constants';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useRef<Toast>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();    
+    e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-    const data = await res.json();
-    if (data.success) {
-      toast.current?.show({severity:'success', summary: 'Success', detail:'Message has been sent', life: 3000});
-      setFormData({ name: '', email: '', message: '' });
-    } else {
-      toast.current?.show({severity:'error', summary: 'Error', detail:'Failed to send message. Please try again later.', life: 3000});
+      const data = await res.json();
+      if (data.success) {
+        toast.current?.show({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Message has been sent',
+          life: 3000,
+        });
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        toast.current?.show({
+          severity: 'error',
+          summary: 'Error',
+          detail: data.message,
+          life: 3000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.current?.show({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'something went wrong',
+        life: 3000,
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (error) {
-    console.log(error);
-    toast.current?.show({severity:'error', summary: 'Error', detail:'Something went wrong. Please try again.', life: 3000});
-
-  } finally {
-    setIsSubmitting(false);
-  }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -53,18 +69,18 @@ const Contact = () => {
     {
       name: 'GitHub',
       icon: <Github className="w-6 h-6" />,
-      url: MY_URLS.github
+      url: MY_URLS.github,
     },
     {
       name: 'LinkedIn',
       icon: <Linkedin className="w-6 h-6" />,
-      url: MY_URLS.linked_in
-    }
+      url: MY_URLS.linked_in,
+    }   
   ];
 
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8">
-      <Toast position="bottom-right" ref={toast} className='z-50' />
+    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-950">
+      <Toast position="bottom-right" ref={toast} className="z-50" />
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -77,7 +93,8 @@ const Contact = () => {
             Get In <span className="text-emerald-400">Touch</span>
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Ready to bring your ideas to life? Let&apos;s discuss your next project.
+            Ready to bring your ideas to life? Let&apos;s discuss your next
+            project.
           </p>
         </motion.div>
 
@@ -91,7 +108,9 @@ const Contact = () => {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Let&apos;s Connect</h3>
+              <h3 className="text-2xl font-bold text-white mb-6">
+                Let&apos;s Connect
+              </h3>
               <div className="space-y-4">
                 <div className="flex items-center">
                   <Mail className="w-5 h-5 text-emerald-400 mr-3" />
@@ -105,7 +124,9 @@ const Contact = () => {
             </div>
 
             <div>
-              <h4 className="text-lg font-semibold text-white mb-4">Follow Me</h4>
+              <h4 className="text-lg font-semibold text-white mb-4">
+                Follow Me
+              </h4>
               <div className="flex space-x-4">
                 {socialLinks.map((link) => (
                   <motion.a
@@ -132,7 +153,10 @@ const Contact = () => {
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-300 mb-2"
+                >
                   Name
                 </label>
                 <input
@@ -148,7 +172,10 @@ const Contact = () => {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-300 mb-2"
+                >
                   Email
                 </label>
                 <input
@@ -164,7 +191,10 @@ const Contact = () => {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-gray-300 mb-2"
+                >
                   Message
                 </label>
                 <textarea
