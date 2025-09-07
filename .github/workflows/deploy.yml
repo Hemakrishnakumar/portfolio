@@ -1,4 +1,4 @@
-name: Deploy portfolio
+name: Deploy Portfolio
 
 on:
   push:
@@ -6,39 +6,54 @@ on:
       - master
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest   # GitHub cloud runner
+    outputs:
+      artifact-path: ${{ steps.build.outputs.artifact-path }}
 
     steps:
-    # Step 2.1: Checkout repo
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    # Step 2.2: Setup Node.js
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
-    # Step 2.3: Install dependencies & build
-    - name: Install & Build
-      run: |
-        npm install
-        npm run build
+      - name: Install & Build
+        id: build
+        run: |
+          npm ci
+          npm run build
+          echo "artifact-path=.next" >> $GITHUB_OUTPUT
 
-    # Step 2.4: Deploy to EC2 via SSH
-    - name: Deploy to EC2
-      uses: appleboy/ssh-action@v0.1.6
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SECRET_KEY }}
-        port: 22
-        script: |
-          set -e
+      - name: Upload production build
+        uses: actions/upload-artifact@v3
+        with:
+          name: next-build
+          path: |
+            .next
+            package.json
+            package-lock.json
+            public
+            next.config.js
+
+  deploy:
+    runs-on: self-hosted     # Your EC2 runner
+    needs: build             # wait until build finishes
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: next-build
+          path: /home/ubuntu/portfolio
+
+      - name: Install production deps
+        run: |
           cd /home/ubuntu/portfolio
-          git reset --hard
-          git pull origin master
-          npm install --production
+          npm ci --omit=dev
+
+      - name: Restart with PM2
+        run: |
           pm2 restart portfolio || pm2 start npm --name portfolio -- start
           pm2 save
