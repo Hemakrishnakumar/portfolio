@@ -8,8 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest   # GitHub cloud runner
-    outputs:
-      artifact-path: ${{ steps.build.outputs.artifact-path }}
 
     steps:
       - name: Checkout code
@@ -21,39 +19,32 @@ jobs:
           node-version: 20
 
       - name: Install & Build
-        id: build
         run: |
           npm ci
           npm run build
-          echo "artifact-path=.next" >> $GITHUB_OUTPUT
 
       - name: Upload production build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: next-build
           path: |
-            .next
-            package.json
-            package-lock.json
+            .next/standalone
+            .next/static
             public
-            next.config.js
 
   deploy:
     runs-on: self-hosted     # Your EC2 runner
     needs: build             # wait until build finishes
+
     steps:
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: next-build
           path: /home/ubuntu/portfolio
 
-      - name: Install production deps
-        run: |
-          cd /home/ubuntu/portfolio
-          npm ci --omit=dev
-
       - name: Restart with PM2
         run: |
-          pm2 restart portfolio || pm2 start npm --name portfolio -- start
+          cd /home/ubuntu/portfolio
+          pm2 restart portfolio || pm2 start node --name portfolio .next/standalone/server.js
           pm2 save
