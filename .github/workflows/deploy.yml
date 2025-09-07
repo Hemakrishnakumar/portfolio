@@ -30,9 +30,13 @@ jobs:
           name: next-build
           path: |
             .next/standalone
-            .next/standalone/.next   # ✅ inner .next (BUILD_ID etc.)
+            .next/standalone/.next   # ✅ include inner .next with BUILD_ID
             .next/static
             public
+            package.json
+            package-lock.json
+            .next/standalone/node_modules
+
 
   deploy:
     runs-on: self-hosted
