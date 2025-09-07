@@ -23,6 +23,7 @@ jobs:
           npm ci
           npm run build
 
+      # Upload the standalone server and static/public assets
       - name: Upload production build
         uses: actions/upload-artifact@v4
         with:
@@ -31,6 +32,8 @@ jobs:
             .next/standalone
             .next/static
             public
+            package.json
+            package-lock.json
 
   deploy:
     runs-on: self-hosted     # Your EC2 runner
@@ -43,8 +46,16 @@ jobs:
           name: next-build
           path: /home/ubuntu/portfolio
 
+      # Install production dependencies (inside standalone folder)
+      - name: Install production deps
+        run: |
+          cd /home/ubuntu/portfolio/standalone
+          npm ci --omit=dev
+
+      # Remove old PM2 process and start standalone server
       - name: Restart with PM2
         run: |
-          cd /home/ubuntu/portfolio
-          pm2 restart portfolio || pm2 start node --name portfolio .next/standalone/server.js
+          cd /home/ubuntu/portfolio/standalone
+          pm2 delete portfolio || true
+          pm2 start server.js --name portfolio
           pm2 save
