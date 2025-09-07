@@ -45,17 +45,16 @@ jobs:
         with:
           name: next-build
           path: /home/ubuntu/portfolio
-
-      # Install production dependencies (inside standalone folder)
+      # Install production deps
       - name: Install production deps
         run: |
-          cd /home/ubuntu/portfolio/standalone
+          cd /home/ubuntu/portfolio/.next/standalone
           npm ci --omit=dev
 
-      # Remove old PM2 process and start standalone server
+      # Restart PM2
       - name: Restart with PM2
         run: |
-          cd /home/ubuntu/portfolio/standalone
+          cd /home/ubuntu/portfolio/.next/standalone
           pm2 delete portfolio || true
           pm2 start server.js --name portfolio
           pm2 save
