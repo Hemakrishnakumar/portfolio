@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest   # GitHub cloud runner
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -20,25 +20,23 @@ jobs:
 
       - name: Install & Build
         run: |
-          npm ci        # install only production deps
-          npm run build
+          npm ci                # install all deps including dev (for TypeScript)
+          npm run build         
 
-      # Upload the standalone server, static assets, and node_modules
+      # Upload standalone server, required inner .next, static files, and public folder
       - name: Upload production build
         uses: actions/upload-artifact@v4
         with:
           name: next-build
           path: |
             .next/standalone
+            .next/standalone/.next   # ✅ inner .next (BUILD_ID etc.)
             .next/static
             public
-            package.json
-            package-lock.json
-            .next/standalone/node_modules   # ✅ pre-installed modules
 
   deploy:
-    runs-on: self-hosted     # Your EC2 runner
-    needs: build             # wait until build finishes
+    runs-on: self-hosted
+    needs: build
 
     steps:
       - name: Download build artifact
@@ -47,8 +45,7 @@ jobs:
           name: next-build
           path: /home/ubuntu/portfolio
 
-      # No installation needed on EC2
-      # Just start/restart PM2 with prebuilt server
+      # Restart PM2 using the prebuilt standalone server
       - name: Restart with PM2
         run: |
           cd /home/ubuntu/portfolio/.next/standalone
