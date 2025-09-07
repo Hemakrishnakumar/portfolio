@@ -20,10 +20,10 @@ jobs:
 
       - name: Install & Build
         run: |
-          npm ci
+          npm ci --production         # install only production deps
           npm run build
 
-      # Upload the standalone server and static/public assets
+      # Upload the standalone server, static assets, and node_modules
       - name: Upload production build
         uses: actions/upload-artifact@v4
         with:
@@ -34,6 +34,7 @@ jobs:
             public
             package.json
             package-lock.json
+            .next/standalone/node_modules   # ✅ pre-installed modules
 
   deploy:
     runs-on: self-hosted     # Your EC2 runner
@@ -46,13 +47,8 @@ jobs:
           name: next-build
           path: /home/ubuntu/portfolio
 
-      # Install production dependencies in standalone folder
-      - name: Install production deps
-        run: |
-          cd /home/ubuntu/portfolio/.next/standalone
-          npm install --production
-
-      # Restart PM2
+      # No installation needed on EC2
+      # Just start/restart PM2 with prebuilt server
       - name: Restart with PM2
         run: |
           cd /home/ubuntu/portfolio/.next/standalone
