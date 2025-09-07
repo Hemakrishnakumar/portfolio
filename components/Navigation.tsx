@@ -40,10 +40,10 @@ const Navigation = () => {
         bg-black ${isScrolled ? 'bg-opacity-90 backdrop-blur-md shadow-md' : 'bg-opacity-0'}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative flex items-center h-16 px-4">
+        <div className="relative flex justify-between items-center h-16 px-4">
           <motion.div
             whileHover={{ scale: 1.1 }}
-            className="text-4xl font-bold text-white cursor-pointer"
+            className="text-2xl sm:text-4xl font-bold text-white cursor-pointer"
             onClick={() => scrollToSection('#home')}
           >
             <span className="text-emerald-400">&lt;</span>
