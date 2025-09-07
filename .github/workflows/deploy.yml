@@ -45,11 +45,12 @@ jobs:
         with:
           name: next-build
           path: /home/ubuntu/portfolio
-      # Install production deps
+
+      # Install production dependencies in standalone folder
       - name: Install production deps
         run: |
           cd /home/ubuntu/portfolio/.next/standalone
-          npm ci --omit=dev
+          npm install --production
 
       # Restart PM2
       - name: Restart with PM2
