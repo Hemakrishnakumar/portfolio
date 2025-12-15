@@ -1,3 +1,5 @@
+import { Prociono } from "next/font/google";
+
 export const WELCOME_GREET = "Hi, I'm";
 
 export const PERSONAL_INFO = {
@@ -8,6 +10,6 @@ export const PERSONAL_INFO = {
 };
 
 export const MY_URLS = {
-    linked_in : "https://www.linkedin.com/in/krishna-jayavarapu-392b49197/",
-    github: "https://github.com/Hemakrishnakumar"
+    linked_in : process.env.LINKEDIN_PROFILE_URL || "https://www.linkedin.com/in/hemakrishna-kumar-jayavarapu-392b49197/",
+    github: process.env.GITHUB_PROFILE_URL || "https://github.com/Hemakrishnakumar"
 };
